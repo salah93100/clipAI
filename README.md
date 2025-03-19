@@ -1,4 +1,4 @@
-# ClipAI
+# ClipAI (Something with new 🎉)
 
 Bienvenue dans **ClipAI** ! Ce projet est conçu pour aider les créateurs à réaliser rapidement des montages vidéo grâce à une interface intuitive et des outils puissants.
 
