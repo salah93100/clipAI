@@ -94,8 +94,7 @@ Ce projet est sous licence [MIT](LICENSE)
 
 ## 📧 Contact
 
-Pour toute question ou suggestion, n'hésitez pas à nous contacter à [votre-email@example.com]
+Pour toute question ou suggestion, n'hésitez pas à nous contacter à salah.elbouhali@gmail.com
 
 ---
 
-Développé avec ❤️ par [Votre Nom/Société]
