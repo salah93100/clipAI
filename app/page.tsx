@@ -2,14 +2,19 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, BarChart, CheckCircle, ChevronRight, Film, Layers, LineChart, MessageSquare, Shield, Sparkles, Briefcase, Video, Zap } from "lucide-react"
+import { ArrowRight, ChevronRight, CheckCircle2, ArrowUpRight, BarChart2, CheckCircle, Clock, Film, LucideIcon, 
+  LayoutGrid, ShieldCheck, Zap, Heart, Star, ZapIcon, SlidersHorizontal, ArrowRightCircle, BarChart, Code,
+  Linkedin as LinkedinIcon, Twitter as TwitterIcon, Youtube as YoutubeIcon, Sparkles, Layers, Shield, MessageSquare, Briefcase, LineChart } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { PricingCard } from "@/components/pricing-card"
 import { TestimonialCard } from "@/components/testimonial-card"
 import { FeatureCard } from "@/components/feature-card"
 import { VideoFormatCard } from "@/components/video-format-card"
+import { FloatingNavbar } from "@/components/floating-navbar"
 import { createClient } from '@supabase/supabase-js'
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -19,113 +24,106 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Film className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">ClipAI</span>
+      <FloatingNavbar />
+      <main className="flex-1">
+        <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5">
+          <div className="absolute inset-0 bg-grid-white/10 bg-[length:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]"></div>
+          
+          <div className="container mx-auto px-4 md:px-6 w-full md:w-4/5 lg:w-3/4 relative">
+            <div className="flex flex-col items-center text-center">
+              <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-background text-foreground mb-4 w-fit">
+                <span className="flex h-2 w-2 rounded-full bg-primary mr-1"></span>Solution d'entreprise
           </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="#solutions" className="text-sm font-medium hover:text-primary">
-              Solutions
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-4xl">
+                <span className="text-primary">Centralisez, pilotez</span> et optimisez votre production vidéo
+              </h1>
+              
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl">
+                Digitalisez toutes les étapes de votre chaîne de production vidéo, suivez vos projets en temps réel et accédez à des outils d'optimisation avancés depuis une plateforme unique.
+              </p>
+              
+              <div className="mt-10 flex flex-col sm:flex-row gap-5 sm:gap-8">
+                <Button size="lg" className="font-medium px-8" asChild>
+                  <Link href="/signup">
+                    Demander une démo
             </Link>
-            <Link href="#why-clipai" className="text-sm font-medium hover:text-primary">
-              Pourquoi ClipAI
+                </Button>
+                <Button size="lg" variant="outline" className="font-medium px-8" asChild>
+                  <Link href="#demo">
+                    Voir en action
             </Link>
-            <Link href="#formats" className="text-sm font-medium hover:text-primary">
-              Formats
-            </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-              Tarification
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:text-primary">
-              Témoignages
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium hover:text-primary">
-              Connexion
-            </Link>
-            <Button asChild>
-              <Link href="/signup">Démarrer</Link>
+                </Button>
+              </div>
+              
+              <div className="mt-16 w-full max-w-4xl mx-auto relative">
+                <div className="absolute -top-3 -left-3 w-24 h-24 border-t border-l border-primary/20 rounded-tl-xl"></div>
+                <div className="absolute -bottom-3 -right-3 w-24 h-24 border-b border-r border-primary/20 rounded-br-xl"></div>
+                
+                <div className="relative aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-gradient-to-br from-background to-muted/30 shadow-[0_20px_80px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_80px_-10px_rgba(0,0,0,0.3)]">
+                  <video
+                    className="absolute inset-0 w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source src="/videoHero.mp4" type="video/mp4" />
+                    Votre navigateur ne supporte pas la lecture de vidéos.
+                  </video>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent"></div>
+                  
+                  <div className="absolute top-4 right-4 bg-background/70 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-full px-3 py-1 text-xs font-medium flex items-center">
+                    <span className="h-2 w-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
+                    Plateforme en direct
+                  </div>
+                  
+                  <div className="absolute bottom-0 left-0 right-0 backdrop-blur-md bg-background/70 border-t border-gray-200 dark:border-gray-800 p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Film className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">ClipAI Enterprise Suite</p>
+                          <p className="text-xs text-muted-foreground">Plateforme intégrée d'optimisation vidéo</p>
+                        </div>
+                      </div>
+                      <Button size="sm" variant="secondary" className="gap-1.5">
+                        <span>Voir la démo</span>
+                        <ChevronRight className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
-      </header>
-      <main className="flex-1">
-        <section className="relative py-20 md:py-28 bg-gradient-to-br from-background via-background to-primary/5 overflow-hidden">
-          <div className="absolute inset-0 bg-grid-white/10 bg-[length:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]"></div>
-          <div className="container relative px-4 md:px-6">
-            <div className="grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
-              <div className="flex flex-col justify-center space-y-6">
-                <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-background text-foreground mb-2 w-fit">
-                  <span className="flex h-2 w-2 rounded-full bg-primary mr-1"></span> 
-                    Créez des vidéos professionnelles en quelques clics
-                  </div>
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl/none">
-                  <span className="text-primary">Automatisez</span> votre production de contenu vidéo
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  ClipAI optimise votre workflow vidéo. Adaptez votre contenu pour tous les canaux digitaux et augmentez votre ROI marketing avec notre plateforme IA.
-                  </p>
-                <div className="flex flex-col gap-3 min-[400px]:flex-row">
-                  <Button size="lg" className="font-medium" asChild>
-                    <Link href="/signup">
-                      Essai gratuit de 14 jours <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" className="font-medium" asChild>
-                    <Link href="#demo">
-                      Demander une démo <ChevronRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </Button>
                 </div>
                 
-              </div>
-              <div className="relative aspect-video overflow-hidden rounded-xl border bg-background/50 shadow-xl">
-                <video
-                  className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                >
-                  <source src="/videoHero.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas la lecture de vidéos.
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-background/80 backdrop-blur-sm p-4 shadow-lg border">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium">ClipAI Dashboard</p>
-                      <p className="text-xs text-muted-foreground">Transformez vos vidéos en quelques clics</p>
-                    </div>
-                    <Button size="sm" variant="secondary">Voir la démo</Button>
-                  </div>
+                <div className="text-center mt-3 text-xs text-muted-foreground">
+                  Interface utilisateur de la plateforme ClipAI Enterprise — Vue dashboard administrateur
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12 border-y bg-muted/30">
-          <div className="container px-4 md:px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              <div className="flex flex-col items-center justify-center text-center p-4">
-                <div className="text-3xl md:text-4xl font-bold text-primary">350+</div>
-                <p className="text-sm text-muted-foreground mt-1">Entreprises équipées</p>
-              </div>
-              <div className="flex flex-col items-center justify-center text-center p-4">
-                <div className="text-3xl md:text-4xl font-bold text-primary">98%</div>
-                <p className="text-sm text-muted-foreground mt-1">Taux de satisfaction</p>
-              </div>
-              <div className="flex flex-col items-center justify-center text-center p-4">
-                <div className="text-3xl md:text-4xl font-bold text-primary">80%</div>
-                <p className="text-sm text-muted-foreground mt-1">Temps économisé</p>
-              </div>
-              <div className="flex flex-col items-center justify-center text-center p-4">
-                <div className="text-3xl md:text-4xl font-bold text-primary">12M+</div>
-                <p className="text-sm text-muted-foreground mt-1">Vidéos générées</p>
+              
+              
+              <div className="mt-16 w-full">
+                <div className="border-t border-gray-200 dark:border-gray-800 w-full mb-12"></div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <div className="text-3xl md:text-4xl font-bold text-primary">350+</div>
+                    <p className="text-sm text-muted-foreground mt-1">Entreprises équipées</p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <div className="text-3xl md:text-4xl font-bold text-primary">98%</div>
+                    <p className="text-sm text-muted-foreground mt-1">Taux de satisfaction</p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <div className="text-3xl md:text-4xl font-bold text-primary">80%</div>
+                    <p className="text-sm text-muted-foreground mt-1">Temps économisé</p>
+                  </div>
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <div className="text-3xl md:text-4xl font-bold text-primary">12M+</div>
+                    <p className="text-sm text-muted-foreground mt-1">Vidéos générées</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -290,9 +288,6 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="relative bg-primary/5 p-6 border-b md:border-b-0 md:border-r flex flex-col items-center text-center">
-                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-bl">
-                    Populaire
-                  </div>
                   <h3 className="text-lg font-medium mb-2">Réseaux Grand Public</h3>
                   <p className="text-sm text-muted-foreground mb-4">Formats optimisés pour maximiser l'engagement et la visibilité de votre marque</p>
                   <div className="flex flex-wrap gap-2 justify-center mb-4">
@@ -622,178 +617,198 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="contact" className="py-20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background"></div>
-          <div className="container relative px-4 md:px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="rounded-2xl border bg-background p-8 md:p-12 shadow-lg">
-                <div className="grid gap-10 md:grid-cols-2 md:gap-16 items-center">
-                  <div>
-                    <h2 className="text-3xl font-bold tracking-tight mb-4">
-                      Prêt à transformer votre workflow vidéo ?
+        <section className="bg-primary/5 py-24">
+          <div className="container px-4 md:px-6">
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+              <div className="space-y-4">
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  Prêt à démarrer ?
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Transformez votre stratégie vidéo dès aujourd'hui
                 </h2>
-                    <p className="text-muted-foreground mb-6">
-                      Rejoignez des centaines d'entreprises qui optimisent déjà leur stratégie vidéo avec ClipAI.
-                    </p>
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="text-sm">
-                          <strong>Essai gratuit de 14 jours</strong> - Aucune carte de crédit requise
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="text-sm">
-                          <strong>Onboarding personnalisé</strong> - Support dédié pour votre équipe
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-primary" />
-                        </div>
-                        <div className="text-sm">
-                          <strong>Annulation à tout moment</strong> - Sans engagement de durée
-                        </div>
-                      </div>
+                <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                  Rejoignez plus de 350 entreprises qui optimisent leur production vidéo et augmentent leur ROI grâce à ClipAI.
+                </p>
+                <ul className="grid gap-2 py-4">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>14 jours d'essai sans engagement</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>Accès complet à toutes les fonctionnalités</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-primary" />
+                    <span>Support technique dédié</span>
+                  </li>
+                </ul>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
+                    Commencer gratuitement
+                  </Button>
+                  <Button variant="outline" size="lg">
+                    Demander une démo <ArrowRight className="ml-1.5 h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-xl shadow-lg dark:bg-gray-950">
+                <h3 className="text-xl font-bold mb-4">Demandez une démo personnalisée</h3>
+                <p className="text-gray-500 mb-6 dark:text-gray-400">
+                  Notre équipe vous contactera sous 24h pour organiser une démonstration adaptée à vos besoins.
+                </p>
+                <form className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="first-name">Prénom</Label>
+                      <Input id="first-name" placeholder="Prénom" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="last-name">Nom</Label>
+                      <Input id="last-name" placeholder="Nom" />
                     </div>
                   </div>
-                  
-                  <div className="bg-muted p-6 rounded-xl border">
-                    <h3 className="text-lg font-medium mb-4">Démarrer votre essai gratuit</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <label htmlFor="company" className="block text-sm font-medium mb-1">
-                          Nom de l'entreprise
-                        </label>
-                        <input
-                          type="text"
-                          id="company"
-                          className="w-full px-3 py-2 rounded-md border bg-background"
-                          placeholder="Votre entreprise"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium mb-1">
-                          Email professionnel
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          className="w-full px-3 py-2 rounded-md border bg-background"
-                          placeholder="vous@entreprise.com"
-                        />
-                      </div>
-                      <Button className="w-full">Démarrer l'essai gratuit</Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground text-center mt-4">
-                      En vous inscrivant, vous acceptez nos{" "}
-                      <Link href="#" className="text-primary hover:underline">
-                        Conditions d'utilisation
-                      </Link>{" "}
-                      et notre{" "}
-                      <Link href="#" className="text-primary hover:underline">
-                        Politique de confidentialité
-                      </Link>
-                      .
-                </p>
-              </div>
-                </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email professionnel</Label>
+                    <Input id="email" placeholder="vous@entreprise.com" type="email" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Entreprise</Label>
+                    <Input id="company" placeholder="Nom de votre entreprise" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="job-title">Fonction</Label>
+                    <Input id="job-title" placeholder="Directeur Marketing, etc." />
+                  </div>
+                  <Button type="submit" className="w-full bg-primary text-white hover:bg-primary/90">
+                    Demander ma démo
+                </Button>
+                </form>
               </div>
             </div>
           </div>
         </section>
       </main>
       
-      <footer className="border-t bg-muted/30">
-        <div className="container px-4 md:px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
-            <div className="col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <Film className="h-6 w-6 text-primary" />
+      <footer className="border-t py-12 md:py-16 lg:py-20">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+            <div className="lg:col-span-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <video className="h-6 w-6" autoPlay loop muted playsInline>
+                  <source src="/logo.mp4" type="video/mp4" />
+                </video>
                 <span className="text-xl font-bold">ClipAI</span>
               </div>
-              <p className="text-muted-foreground text-sm mb-4 max-w-xs">
-                Solution d'édition vidéo IA qui permet aux équipes marketing de créer du contenu professionnel pour tous les canaux.
+              <p className="text-gray-500 max-w-sm dark:text-gray-400">
+                La plateforme d'édition vidéo IA qui transforme la façon dont les entreprises créent du contenu vidéo à grande échelle.
               </p>
-              <div className="flex gap-4">
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                  </svg>
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                  </svg>
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
-                  </svg>
-                </Button>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                  </svg>
-                </Button>
+              <div className="flex space-x-4 mt-6">
+                <Link href="#" className="text-gray-500 hover:text-primary">
+                  <LinkedinIcon className="h-5 w-5" />
+                  <span className="sr-only">LinkedIn</span>
+                </Link>
+                <Link href="#" className="text-gray-500 hover:text-primary">
+                  <TwitterIcon className="h-5 w-5" />
+                  <span className="sr-only">Twitter</span>
+                </Link>
+                <Link href="#" className="text-gray-500 hover:text-primary">
+                  <YoutubeIcon className="h-5 w-5" />
+                  <span className="sr-only">YouTube</span>
+                </Link>
               </div>
             </div>
-            
             <div>
-              <h3 className="font-medium mb-4">Produit</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Fonctionnalités</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Intégrations</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Tarification</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Cas d'usage</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Roadmap</Link></li>
+              <h3 className="text-lg font-semibold mb-4">Produit</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="#solutions" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Solutions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#formats" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Formats
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#pricing" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Tarifs
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#testimonials" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Témoignages
+                  </Link>
+                </li>
               </ul>
             </div>
-            
             <div>
-              <h3 className="font-medium mb-4">Ressources</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Blog</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Documentation</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Communauté</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Tutoriels</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Webinaires</Link></li>
+              <h3 className="text-lg font-semibold mb-4">Ressources</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Guides
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Centre d'aide
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Statut système
+                  </Link>
+                </li>
               </ul>
             </div>
-            
             <div>
-              <h3 className="font-medium mb-4">Entreprise</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">À propos</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Clients</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Carrières</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Contact</Link></li>
-                <li><Link href="#" className="text-muted-foreground hover:text-foreground">Presse</Link></li>
+              <h3 className="text-lg font-semibold mb-4">Entreprise</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    À propos
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Carrières
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className="text-gray-500 hover:text-primary dark:text-gray-400">
+                    Mentions légales
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
-          
-          <div className="mt-10 pt-8 border-t">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-muted-foreground">
-                © 2024 ClipAI Technologies SAS. Tous droits réservés.
-              </p>
-              <div className="flex gap-6 text-sm">
-                <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Conditions d'utilisation
-                </Link>
-                <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Politique de confidentialité
-                </Link>
-                <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Mentions légales
-                </Link>
-              </div>
+          <div className="border-t mt-10 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              © 2023 ClipAI. Tous droits réservés.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="#" className="text-sm text-gray-500 hover:text-primary dark:text-gray-400">
+                Conditions générales
+              </Link>
+              <Link href="#" className="text-sm text-gray-500 hover:text-primary dark:text-gray-400">
+                Politique de confidentialité
+              </Link>
+              <Link href="#" className="text-sm text-gray-500 hover:text-primary dark:text-gray-400">
+                Cookies
+              </Link>
             </div>
           </div>
         </div>

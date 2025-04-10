@@ -126,7 +126,7 @@ export function DashboardNav() {
             <NavItem 
               href="/dashboard/templates"
               icon={<LayoutGrid className={cn("text-muted-foreground", collapsed ? "w-5 h-5" : "w-5 h-5")} />}
-              label="Modèles"
+              label="Réseaux sociaux"
             />
             <NavItem 
               href="/dashboard/subtitles"

@@ -22,6 +22,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
+import { VideoConverter } from "@/components/video-converter"
+import { Badge } from "@/components/ui/badge"
 
 export default function DashboardPage() {
   const { user, session, isLoading } = useSupabaseAuth();
@@ -38,6 +40,7 @@ export default function DashboardPage() {
     center: false
   })
   const [cropPositionAdjustment, setCropPositionAdjustment] = useState(50)
+  const [selectedVideo, setSelectedVideo] = useState<File | null>(null)
   
   // Formats disponibles
   const formats = [
@@ -102,6 +105,7 @@ export default function DashboardPage() {
 
   const handleVideoSelect = (file: File) => {
     console.log('Vidéo sélectionnée:', file.name);
+    setSelectedVideo(file);
     toast({
       title: "Vidéo importée",
       description: `${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`,
@@ -110,6 +114,16 @@ export default function DashboardPage() {
 
   const handleFormatChange = (format: string) => {
     console.log('Format sélectionné:', format);
+    
+    // Si le format change, on réinitialise la conversion
+    if (selectedFormat !== format) {
+      // Émettre un événement pour réinitialiser le convertisseur
+      const resetEvent = new CustomEvent('reset-converter', { 
+        detail: { format: format }
+      });
+      document.dispatchEvent(resetEvent);
+    }
+    
     setSelectedFormat(format);
     
     // Récupérer les informations du format sélectionné
@@ -261,6 +275,19 @@ export default function DashboardPage() {
                   cropPosition={cropPositionAdjustment}
                 />
                 
+                {selectedVideo && (
+                  <div className="mt-6 border rounded-md p-4 bg-background">
+                    <VideoConverter 
+                      videoFile={selectedVideo} 
+                      format={selectedFormat}
+                      cropPosition={cropPositionAdjustment}
+                      onConversionComplete={(url) => {
+                        console.log('Conversion terminée, URL:', url);
+                      }}
+                    />
+                  </div>
+                )}
+                
                 <div className="space-y-4 relative">
                   <div className="flex items-center justify-between space-x-2 p-4 rounded-md border border-dashed border-purple-400 bg-purple-50/10">
                     <div className="flex-1">
@@ -341,7 +368,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 
-                <div className="bg-muted/30 rounded-lg p-6 space-y-6">
+                <div className="bg-muted/30 rounded-lg p-6 space-y-6 relative">
                   <div className="flex items-center space-x-2">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                       <CropIcon className="w-5 h-5 text-primary" />
@@ -353,6 +380,17 @@ export default function DashboardPage() {
                   </div>
                   
                   <Separator />
+                  
+                  {/* Overlay "Bientôt disponible" */}
+                  <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg z-10">
+                    <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-300 mb-2 px-3 py-1">
+                      <Wand2 className="h-4 w-4 mr-2" />
+                      Bientôt disponible
+                    </Badge>
+                    <p className="text-sm text-muted-foreground max-w-xs text-center">
+                      Le recadrage manuel sera disponible dans la prochaine mise à jour
+                    </p>
+                  </div>
                   
                   <div className="space-y-4">
                     <div>

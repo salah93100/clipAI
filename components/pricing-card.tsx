@@ -25,11 +25,6 @@ export function PricingCard({
 }: PricingCardProps) {
   return (
     <Card className={popular ? "border-primary shadow-md" : ""}>
-      {popular && (
-        <div className="absolute -top-3 left-0 right-0 mx-auto w-fit rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
-          Populaire
-        </div>
-      )}
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <div className="flex items-baseline gap-1">

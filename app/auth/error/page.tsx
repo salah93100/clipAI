@@ -4,8 +4,10 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 
-export default function AuthErrorPage() {
+// Composant qui utilise useSearchParams
+function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
@@ -57,5 +59,14 @@ export default function AuthErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Composant principal avec Suspense
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Chargement...</div>}>
+      <ErrorContent />
+    </Suspense>
   );
 } 

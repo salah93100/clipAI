@@ -1,87 +1,119 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/components/ui/use-toast";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/lib/supabase";
 
-export default function SignUpPage() {
+// Composant qui utilise useSearchParams
+function SignupForm() {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const errorParam = searchParams.get("error");
+
+  useEffect(() => {
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+    }
+
+    // Vérifier s'il existe déjà une session active
+    const checkExistingSession = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        console.log("Signup page - Vérification de session:", data.session ? "Session active" : "Pas de session");
+        
+        // Si une session existe, rediriger vers le dashboard
+        if (data.session) {
+          console.log("Session existante détectée, redirection vers le dashboard");
+          setTimeout(() => {
+            router.push('/dashboard');
+          }, 100);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la vérification de session:", error);
+      }
+    };
+    
+    checkExistingSession();
+  }, [errorParam, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
 
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      console.log("Tentative d'inscription avec:", { email, name });
+      console.log("Tentative d'inscription avec:", { email, fullName });
       
+      // 1. Créer l'utilisateur avec email et mot de passe
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { name },
+          data: {
+            full_name: fullName,
+          },
           emailRedirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
         },
       });
-      
-      console.log("Résultat d'inscription:", {
-        user: data.user ? "User created" : "No user",
-        session: data.session ? "Session created" : "No session", 
-        error: error ? error.message : "No error"
+
+      console.log("Résultat d'inscription:", { 
+        user: data.user ? "User created" : "No user", 
+        session: data.session ? "Session created" : "No session",
+        error: error ? error.message : "No error" 
       });
 
       if (error) {
-        throw new Error(error.message);
+        setError(error.message);
+        setIsLoading(false);
+        return;
       }
 
+      // Vérifier que l'utilisateur a bien été créé
       if (!data.user) {
-        throw new Error("Erreur lors de la création du compte.");
+        setError("Erreur lors de la création du compte. Veuillez réessayer.");
+        setIsLoading(false);
+        return;
       }
 
-      // Si email de confirmation est requis dans Supabase
-      if (!data.session) {
+      // Si l'inscription réussit
+      toast({
+        title: "Inscription réussie",
+        description: "Votre compte a été créé avec succès.",
+      });
+
+      if (data.session) {
+        console.log("Session créée lors de l'inscription, redirection vers le dashboard");
+        // Ajouter un délai pour s'assurer que la session est bien établie
+        setTimeout(() => {
+          window.location.href = "/dashboard"; 
+        }, 1000);
+      } else {
+        console.log("Inscription réussie, mais pas de session active");
+        // Si pas de session (cas où la confirmation d'email est requise)
         toast({
           title: "Vérifiez votre email",
-          description: "Un lien de confirmation a été envoyé à votre adresse email.",
+          description: "Un lien de vérification a été envoyé à votre adresse email.",
         });
-        router.push("/signup/email-verification");
-      } else {
-        // Si l'utilisateur est directement connecté
-        toast({
-          title: "Compte créé avec succès",
-          description: "Bienvenue sur ClipAI !",
-        });
-        
-        // Ajouter un délai plus long avant la redirection pour s'assurer que les cookies soient bien établis
         setTimeout(() => {
-          console.log("Redirection vers le dashboard après inscription...");
-          // Forcer une navigation complète au lieu d'une navigation côté client
-          window.location.href = "/dashboard";
-        }, 1500);
+          window.location.href = "/login?registered=true";
+        }, 2000);
       }
     } catch (error: any) {
-      console.error("Erreur d'inscription:", error);
-      setError(error.message || "Une erreur est survenue. Veuillez réessayer.");
-    } finally {
+      console.error("Exception lors de l'inscription:", error);
+      setError("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
       setIsLoading(false);
     }
   };
@@ -117,7 +149,7 @@ export default function SignUpPage() {
       }
     } catch (error: any) {
       console.error("Exception lors de l'inscription avec Google:", error);
-      setError("Une erreur est survenue avec la connexion Google.");
+      setError("Une erreur est survenue avec l'inscription via Google.");
       setIsLoading(false);
     }
   };
@@ -132,28 +164,40 @@ export default function SignUpPage() {
               alt="ClipAI Logo" 
               width={80} 
               height={80} 
-              className="mx-auto h-12 w-auto"
+              className="mx-auto h-12 w-auto" 
             />
           </div>
           <h2 className="mt-6 text-3xl font-bold tracking-tight">
             Créer un compte
           </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Commencez à utiliser ClipAI dès aujourd'hui
+          </p>
         </div>
+
+        {error && (
+          <Alert className="bg-red-50 border-red-200">
+            <AlertDescription className="text-red-800">
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium">
+              <label htmlFor="fullName" className="block text-sm font-medium">
                 Nom complet
               </label>
               <Input
-                id="name"
-                name="name"
+                id="fullName"
+                name="fullName"
                 type="text"
                 autoComplete="name"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Jean Dupont"
                 className="mt-1"
               />
             </div>
@@ -187,27 +231,11 @@ export default function SignUpPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1"
               />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium">
-                Confirmer le mot de passe
-              </label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1"
-              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                8 caractères minimum
+              </p>
             </div>
           </div>
-
-          {error && (
-            <div className="text-sm text-red-500 text-center">{error}</div>
-          )}
 
           <div>
             <Button
@@ -215,7 +243,7 @@ export default function SignUpPage() {
               className="w-full bg-primary text-primary-foreground"
               disabled={isLoading}
             >
-              {isLoading ? "Création en cours..." : "S'inscrire"}
+              {isLoading ? "Création en cours..." : "Créer un compte"}
             </Button>
           </div>
         </form>
@@ -264,7 +292,7 @@ export default function SignUpPage() {
             Retour au site
           </Link>
           <div className="text-sm">
-            <span className="text-muted-foreground">Déjà inscrit ?</span>{" "}
+            <span className="text-muted-foreground">Déjà un compte ?</span>{" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:text-primary/80"
@@ -275,5 +303,14 @@ export default function SignUpPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Composant principal avec Suspense
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Chargement...</div>}>
+      <SignupForm />
+    </Suspense>
   );
 } 

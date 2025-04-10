@@ -113,24 +113,14 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
             
             // Redirection automatique pour les événements d'authentification
             if (event === 'SIGNED_IN') {
-              console.log("Session établie après connexion");
-              
-              // Éviter de rediriger si nous sommes déjà sur dashboard
-              if (pathname && pathname.startsWith('/dashboard')) {
-                console.log("Déjà sur dashboard, pas de redirection nécessaire");
-                router.refresh();
-                return;
-              }
+              console.log("Redirection après connexion...");
               
               // Extraire l'URL de redirection des paramètres si elle existe
               const urlParams = new URLSearchParams(window.location.search);
               const redirectUrl = urlParams.get('redirectedFrom') || '/dashboard';
               
-              // Attendre un moment avant la redirection pour éviter les boucles
-              console.log("Redirection planifiée vers:", redirectUrl);
-              setTimeout(() => {
-                window.location.href = redirectUrl;
-              }, 500);
+              // Rediriger vers l'URL demandée ou le dashboard par défaut
+              window.location.href = redirectUrl;
             } else if (event === 'SIGNED_OUT') {
               console.log("Redirection après déconnexion...");
               window.location.href = '/login';
