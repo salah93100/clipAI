@@ -64,4 +64,4 @@ EXPOSE 3000
 ENV PORT=3000
 
 # Commande pour démarrer l'application
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
