@@ -202,7 +202,6 @@ async function convertVideo(inputPath: string, outputPath: string, format: strin
           console.log('Conversion démarrée');
         })
         .on('progress', (progress) => {
-          console.log(`Progression: ${progress.percent?.toFixed(2)}%`);
         })
         .on('end', () => {
           console.log('Conversion terminée');

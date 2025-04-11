@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 export async function GET(request: Request) {
   try {
@@ -23,12 +23,6 @@ export async function GET(request: Request) {
       console.error("Aucun code d'authentification reçu");
       return NextResponse.redirect(new URL('/login?error=nocode', request.url));
     }
-    
-    // Créer un client Supabase classique
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
     
     // Échange du code contre une session
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);

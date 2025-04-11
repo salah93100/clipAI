@@ -12,14 +12,10 @@ import { TestimonialCard } from "@/components/testimonial-card"
 import { FeatureCard } from "@/components/feature-card"
 import { VideoFormatCard } from "@/components/video-format-card"
 import { FloatingNavbar } from "@/components/floating-navbar"
-import { createClient } from '@supabase/supabase-js'
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export default function LandingPage() {
   return (
