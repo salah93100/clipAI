@@ -7,7 +7,7 @@ RUN apk add --no-cache libc6-compat ffmpeg
 WORKDIR /app
 
 # Copie des fichiers package.json et package-lock.json
-COPY package.json pnpm-lock.yaml* .env.production ./
+COPY package.json pnpm-lock.yaml* ./
 RUN npm install -g pnpm && pnpm i --frozen-lockfile
 
 # Étape de construction (build)
