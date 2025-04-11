@@ -7,6 +7,9 @@ import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Configuration dynamique pour éviter les problèmes de prérendering
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "ClipAI - Édition vidéo IA pour optimiser votre contenu sur tous les réseaux",
   description: "ClipAI est une plateforme d'édition vidéo alimentée par l'IA qui optimise automatiquement vos vidéos pour tous les formats de réseaux sociaux.",
