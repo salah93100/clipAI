@@ -126,11 +126,9 @@ export function SupabaseAuthProvider({ children }: { children: React.ReactNode }
               const urlParams = new URLSearchParams(window.location.search);
               const redirectUrl = urlParams.get('redirectedFrom') || '/dashboard';
               
-              // Attendre un moment avant la redirection pour éviter les boucles
-              console.log("Redirection planifiée vers:", redirectUrl);
-              setTimeout(() => {
-                window.location.href = redirectUrl;
-              }, 500);
+              // Redirection immédiate au lieu d'un délai
+              console.log("Redirection immédiate vers:", redirectUrl);
+              window.location.href = redirectUrl;
             } else if (event === 'SIGNED_OUT') {
               console.log("Redirection après déconnexion...");
               window.location.href = '/login';

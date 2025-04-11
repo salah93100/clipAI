@@ -8,6 +8,12 @@ export async function GET(request: Request) {
     const error = searchParams.get('error');
     const next = searchParams.get('next') || '/dashboard';
     
+    // Logs supplémentaires pour le debugging
+    console.log("URL complète de la requête:", request.url);
+    console.log("Paramètres de recherche:", Object.fromEntries(searchParams.entries()));
+    console.log("Code:", code ? "Présent" : "Absent");
+    console.log("Destination next:", next);
+    
     console.log(`Callback OAuth reçu - Code présent: ${!!code}, Erreur: ${error || 'aucune'}`);
     
     // Si nous recevons une erreur "nocode" mais qu'il y a un fragment d'URL,
@@ -36,6 +42,8 @@ export async function GET(request: Request) {
     
     // Ajouter un cookie spécial pour indiquer une redirection post-auth
     const redirectUrl = new URL(next, request.url);
+    console.log("URL de redirection complète:", redirectUrl.toString());
+    
     const response = NextResponse.redirect(redirectUrl);
     
     // Ajouter un cookie temporaire pour indiquer une redirection après authentification

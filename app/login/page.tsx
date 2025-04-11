@@ -139,10 +139,14 @@ function LoginForm() {
       setError("");
       console.log("Tentative de connexion avec Google...");
       
+      // Définir l'URL de redirection absolue
+      const redirectUrl = `${window.location.origin}/auth/callback?next=/dashboard`;
+      console.log("URL de redirection OAuth configurée:", redirectUrl);
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+          redirectTo: redirectUrl,
           queryParams: {
             prompt: 'select_account', // Force la sélection du compte Google
             access_type: 'offline', // Pour obtenir un refresh token
